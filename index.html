@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <script>
+            const FOCAL_LENGTH  = 800;
+            const rotate_step   = 3.1415926 / 2;
+            const move_step     = 80;
+        </script>
+        <script src="js/libs/babel-standalone/6.24.0/babel.js"></script>
+        <script src="js/piece.js" type="text/babel"></script>
+        <script src="js/field.js" type="text/babel"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/prototypes.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <script src="js/net.js" type="text/babel"></script>
+        <script src="js/ui.js" type="text/babel"></script>
+        <script src="js/main.js" type="text/babel"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+        <div id="header">
+            <span class="logo">
+                <h1>BlockOut - the game</h1>
+            </span>
+        </div>
+        <div id="game">
+            <div class="game_over">
+                <span class="caption">Game Over</span>
+            </div>
+            <div class="info">
+                <div class="is50">
+                    <span class="caption">Score: <span id="score_value">0</span></span>
+                </div>
+                <div class="is50">
+                    <span class="caption">Top Score: <span id="top_score_value"></span></span>
+                </div>
+                <div class="is50">
+                    <span class="caption">Speed: <span id="speed_value">1</span></span>
+                </div>
+            </div>
+            <canvas id="myCanvas" width="500" height="500"></canvas>
+        </div>
+        <div id="bottom">
+            <div class="is51" id="submit">
+                <span class="caption">Username</span><input type="text" id="user_alias" />
+            </div>
+            <div class="is51" id="buttons">
+                <input class="btn" type="button" value="Start Multiplayer Game" id="start_game" />
+            </div>
+        </div>
+    </body>
+</html>
