@@ -12,8 +12,8 @@ template_dir = os.path.abspath('./')
 app = Flask('app', template_folder=template_dir)
 
 app.config['SECRET_KEY']              = 'secret!'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/blockout'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://b183e653bf85f7:113e513f@us-cdbr-iron-east-05.cleardb.net/heroku_ee6fd50cdca3414'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('CLEARDB_DATABASE_URL', 'mysql://root:root@localhost/blockout')
+# 'mysql://b183e653bf85f7:113e513f@us-cdbr-iron-east-05.cleardb.net/heroku_ee6fd50cdca3414'
 
 socketio = SocketIO(app)
 db       = SQLAlchemy(app)
