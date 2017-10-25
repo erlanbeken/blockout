@@ -7,6 +7,8 @@ class UI{
 
         this.user_id = readCookie('user_code');
 
+        let self = this
+
         $('#start_game').addEventListener('click', function(){
             let new_game_id = guid();
             let path = location.path || '';
@@ -14,8 +16,8 @@ class UI{
             document.location.href = 'http://' + document.domain + ':' + location.port + path + '/?game=' + new_game_id;
         });
 
-        $('#user_alias').addEventListener('change', function(){
-            this.updateUserAlias(data.alias);
+        $('#user_alias').addEventListener('change', () => {
+            self.updateUserInfo({alias: $('#user_alias').value})
         })
 
         fetch('/get_user_info',  {credentials: "same-origin"})
@@ -28,14 +30,6 @@ class UI{
             })
         })
     }
-
-    // updateUserAlias(value, server_request=true){
-    //     console.log(value);
-
-    //     if (server_request){
-    //         fetch('/set_user_alias?alias=' + value, {credentials: "same-origin"})
-    //     }
-    // }
 
     updateSpeedLevel(value){
         $('#speed_value').innerHTML = value;
@@ -54,20 +48,26 @@ class UI{
         $('#top_score_value').innerHTML = value;
 
         if (update_server){
-            fetch('/update_top_score',  {
-                credentials: "same-origin",
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({value: value})
-            })
+            self.updateUserInfo({top_score: value})
         }
+    }
+
+    updateUserInfo(data){
+        fetch('/update_user_info',  {
+            credentials: "same-origin",
+            method: "POST",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
     }
 
     gameOver(field){
         let z = field.depth / field.step;
+
+        this.net.game_over();
 
         let handler = function(){
             field.map[z] = field.empty_level();

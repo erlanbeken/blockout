@@ -65,16 +65,23 @@ def get_user_info():
     return jsonify({'top_score': user.top_score, 'alias': user.alias})
 
 
-@app.route('/update_top_score', methods=["POST"])
-def update_top_score():
+@app.route('/update_user_info', methods=["POST"])
+def update_user_info():
     from models import User, commit
 
     user_code = request.cookies.get('user_code')
     user      = User.find_by_code(user_code)
+    data      = request.get_json()
 
     assert user, 'User not found'
+    assert data, 'user info data is missing'
 
-    user.top_score = int(request.get_json().get('value'))
+
+    if 'top_score' in data:
+        user.top_score = int(data['value'])
+
+    if 'alias' in data:
+        user.alias = data['alias']
 
     commit()
 
@@ -103,32 +110,45 @@ def send_css(path):
 
 @socketio.on('level_removed')
 def level_removed(data):
-    user_id = request.cookies.get('user_id')
-    game_id = request.cookies.get('game_id')
+    from models import User
+
+    user_code = request.cookies.get('user_code')
+    game_code = request.cookies.get('game_code')
+    user    = User.find_by_code(user_code)
 
     data = {
         'n'         : data['levels'],
-        'user_id'   : user_id,
-        'user_alias': users[user_id].get('alias', user_id)
+        'user_code' : user_code,
+        'user_alias': user.alias
     }
-    emit('feces_time', data, room=game_id)
+    emit('feces_time', data, room=game_code)
 
 
-@socketio.on('change_alias')
-def change_alias(data):
-    user_id = request.cookies['user_id'];
-    users.setdefault(user_id, {})['alias'] = data.get('alias')
+@socketio.on('game_over')
+def game_over():
+    from models import User
+
+    user_code = request.cookies.get('user_code')
+    game_code = request.cookies.get('game_code')
+
+    user    = User.find_by_code(user_code)
+
+    data = {
+        'user_code' : user_code,
+        'user_alias': user.alias
+    }
+    emit('game_over', data, room=game_code)
 
 
 @socketio.on('connect')
 def connect():
-    assert 'game_id' in request.cookies, "Game id required"
-    join_room(request.cookies['game_id'])
+    assert 'game_code' in request.cookies, "Game code required"
+    join_room(request.cookies['game_code'])
 
 @socketio.on('disconnect')
 def disconnect():
-    assert 'game_id' in request.cookies, "Game id required"
-    leave_room(request.cookies['game_id'])
+    assert 'game_code' in request.cookies, "Game code required"
+    leave_room(request.cookies['game_code'])
 
 
 if __name__ == '__main__':

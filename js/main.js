@@ -10,7 +10,7 @@
 
     var piece;
     var field = new Field(canvas);
-    var net   = new Net();
+    var net   = new Net(shit);
     var ui    = new UI(net);
 
     var speed_levels    = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50];
@@ -129,6 +129,7 @@
 
                 // check if any levels have been removed
                 let levels_removed = field.check();
+
                 if (levels_removed){
                     net.level_removed(levels_removed);
                     score += levels_removed ** levels_removed;
@@ -204,7 +205,7 @@
 
             moves_queue.push(value)
         }
-    };
+    }
 
     field.draw();
     new_piece();
