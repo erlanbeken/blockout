@@ -1,34 +1,48 @@
 class UI{
-    constructor(net){
-        this.net = net;
-
+    constructor(field, start_game){
         // this.updateTopScore(parseInt(readCookie('top_score', 0), 10));
         // if (!checkCookie('user_id')) createCookie('user_id', guid());
 
-        this.user_id = readCookie('user_code');
-
-        let self = this
+        this.field = field;
 
         $('#start_game').addEventListener('click', function(){
+
             let new_game_id = guid();
             let path = location.path || '';
 
-            document.location.href = 'http://' + document.domain + ':' + location.port + path + '/?game=' + new_game_id;
+            document.location.href = '?game=' + new_game_id;
         });
 
         $('#user_alias').addEventListener('change', () => {
-            self.updateUserInfo({alias: $('#user_alias').value})
-        })
+            this.updateUserInfo({alias: $('#user_alias').value})
+        });
 
-        fetch('/get_user_info',  {credentials: "same-origin"})
-        .then((data) => {
-            data.json().then((data) => {
+        let url       = new URL(document.location.href);
+        let game_code = url.searchParams.get("game");
+
+        if (game_code) createCookie('game_code', game_code, 10000);
+        else eraseCookie('game_code');
+
+        getJSON(
+            window.api_url + 'api/get_user_info', {},
+            (data) => {
                 if (data.alias){
                     $('#user_alias').value = data.alias;
                 }
+                createCookie('user_code', data.user_code, 10000);
+                this.user_code = data.user_code;
+
                 this.updateTopScore(data.top_score, false);
-            })
-        })
+
+                if (data.map){
+                    this.field.unpack_map(data.map);
+                }
+                start_game();
+            },
+            (error) => {
+                this.showError(error)
+            }
+        )
     }
 
     updateSpeedLevel(value){
@@ -48,26 +62,16 @@ class UI{
         $('#top_score_value').innerHTML = value;
 
         if (update_server){
-            self.updateUserInfo({top_score: value})
+            this.updateUserInfo({top_score: value})
         }
     }
 
     updateUserInfo(data){
-        fetch('/update_user_info',  {
-            credentials: "same-origin",
-            method: "POST",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+        getJSON(window.api_url + 'api/update_user_info', data, null, (msg) => { this.showError(msg) })
     }
 
     gameOver(field){
         let z = field.depth / field.step;
-
-        this.net.game_over();
 
         let handler = function(){
             field.map[z] = field.empty_level();
@@ -76,9 +80,16 @@ class UI{
             if (--z >= 0){
                 setTimeout(handler, 50);
             }else{
-                $('.game_over').style.display = 'block';
+                $('.message span').innerHTML = 'Game Over';
+                $('.message').style.display = 'block';
             }
         }
         handler();
+    }
+
+    showError(error){
+        $('.message span').innerHTML = window.error;
+        $('.message').style.display = 'block';
+        $('.message').className += ' error';
     }
 }

@@ -158,7 +158,6 @@ class Piece{
 
         new_piece.obj   = this.obj.map(function(face){ return face.map(function(vertex){ return vertex.slice(0); }) })
 
-        // [new_piece.x, new_piece.y, new_piece.z, new_piece.obj] = [this.x, this.y, this.z, JSON.parse(JSON.stringify(this.obj))]
         return new_piece;
     }
 }

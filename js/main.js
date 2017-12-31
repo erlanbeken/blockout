@@ -1,17 +1,21 @@
 (function main(){
-    const frames_per_move = 5;
-    const checks_per_move = 3;
+    window.api_url = 'http://dev.blockout:5000/';
+
+    const frames_per_move   = 7;
+    const checks_per_move   = 3;
+    const center_x          = 250;
+    const center_y          = 250;
+    const port_number       = 5000;
+    const prototype_indexes = Object.keys(PROTOTYPES).filter(function(i){ return i[0] != '_';});
 
     window.canvas = document.getElementById("myCanvas");
     window.ctx    = canvas.getContext("2d");
 
-    window.center_x     = canvas.width / 2;
-    window.center_y     = canvas.height / 2;
-
     var piece;
+
     var field = new Field(canvas);
-    var net   = new Net(shit);
-    var ui    = new UI(net);
+    var ui    = new UI(field, start_game);
+    var net   = new Net(field);
 
     var speed_levels    = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50];
     var current_speed_level = 1;
@@ -52,6 +56,13 @@
         32: function(){ drop = true;},
         27: toggle_pause
     }
+
+    function start_game(){
+        field.draw();
+        new_piece();
+        run();
+    }
+
     function toggle_pause(){
         if (game_over) return;
 
@@ -68,7 +79,7 @@
 
     function run(){
         moves_queue_handler();
-        timer    = setInterval(function(){
+        timer = setInterval(function(){
             if (speed_levels.length - 1 > current_speed_level){
                 ui.updateSpeedLevel(++current_speed_level)
             }
@@ -76,30 +87,13 @@
     }
 
     function new_piece(){
-        let indexes = Object.keys(PROTOTYPES);
+        let indexes = prototype_indexes;
         let index   = indexes[Math.floor(Math.random() * indexes.length)];
 
         // index = 'LStick'
         piece = new Piece(index);
+        field.set_piece(piece);
         piece.draw(ctx);
-    }
-
-    function shit(n=1){
-        while (true){
-            let x = Math.floor(Math.random() * field.map[0][0].length);
-            let y = Math.floor(Math.random() * field.map[0].length);
-
-            for (let z = 0; z < field.map.length; z++){
-                if (field.map[z][y][x] == 0){
-                    field.map[z][y][x] = 2;
-                    piece.clear(ctx);
-                    field.draw();
-                    piece.draw(ctx);
-                    if (!--n) return;
-                    break;
-                }
-            }
-        }
     }
 
     function moves_queue_handler(){
@@ -116,7 +110,7 @@
             if (!wait_flag && !field.move_legal_cube_centers(piece, [0, 0, move_step * 2])){
                 drop      = false;
                 wait_flag = true;
-                counter   = speed_levels[current_speed_level] - 5;
+                counter   = speed_levels[current_speed_level] - 10;
             }
 
             if (!field.move_legal_cube_centers(piece, [0, 0, move_step])){
@@ -127,11 +121,13 @@
 
                 field.add_piece(piece);
 
+                net.pieceDropped();
+
                 // check if any levels have been removed
-                let levels_removed = field.check();
+                let levels_removed = field.check_levels_removed();
 
                 if (levels_removed){
-                    net.level_removed(levels_removed);
+                    net.levelRemoved(levels_removed);
                     score += levels_removed ** levels_removed;
                     field.draw_grid();
                     ui.updateScore(score);
@@ -142,6 +138,7 @@
                 if (!field.check_space(Piece.start_position)){
                     toggle_pause();
                     ui.gameOver(field);
+                    net.gameOver();
                     game_over = true;
                     return
                 }
@@ -206,8 +203,4 @@
             moves_queue.push(value)
         }
     }
-
-    field.draw();
-    new_piece();
-    run();
 })();

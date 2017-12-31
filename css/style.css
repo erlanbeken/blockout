@@ -71,13 +71,17 @@ body{
     /*padding: 0 0 10px 0;*/
 }
 
-.game_over{
+.message{
     position:absolute;
-    left:50%;
     top:50%;
-    margin-left:-50px;
-    margin-top:-10px;
+    left:50%;
+    margin:-10px auto 0 auto;
+    transform: translateX(-50%);
     display:none;
+}
+
+.error span{
+    /*color: #fe456a !important;*/
 }
 
 .btn {
@@ -147,3 +151,4 @@ input#user_alias:active,
 input#user_alias:hover {
     border: 1px solid rgba(49, 245, 222, 1);
 }
+

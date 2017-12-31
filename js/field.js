@@ -24,6 +24,8 @@ class Field{
         this.map = [];
         this.pieces = [];
 
+        this.bit_mask = [1, 2, 4, 8, 16, 32];
+
         for (let z = 0; z < this.depth / this.step + 2; z++){
             this.map.push(this.empty_level());
         }
@@ -31,13 +33,12 @@ class Field{
         this.draw_grid();
     }
 
+    set_piece(piece){ this.piece = piece; }
+
     empty_level(){
         let new_level = [];
         for (let y = 0; y < this.height / this.step; y++){
-            new_level[y] = [];
-            for (let x = 0; x < this.width / this.step; x++){
-                new_level[y][x] = 0;
-            }
+            new_level[y] = Array(this.width / this.step).fill(0);
         }
         return new_level;
     }
@@ -101,7 +102,7 @@ class Field{
     draw(color='#eee'){
         var put_cube = (x,y,z) => {
             if (!this.map[z][y][x]) return;
-            let cube       = new Piece('Cube', this.transform_indexes(x, y, z))
+            let cube       = new Piece('_Cube', this.transform_indexes(x, y, z))
             let fill_color = (this.map[z][y][x] == 1) ? Field.level_colors[z % Field.level_colors.length] : Field.shit_color;
 
             cube.color = color;
@@ -227,7 +228,7 @@ class Field{
         return true;
     }
 
-    check(){
+    check_levels_removed(){
         let levels_removed = 0;
         let target         = this.map[0].length * this.map[0][0].length;
 
@@ -246,4 +247,54 @@ class Field{
 
         return levels_removed;
     }
+
+    shit(n=1){
+        while (true){
+            let x = Math.floor(Math.random() * this.map[0][0].length);
+            let y = Math.floor(Math.random() * this.map[0].length);
+
+            for (let z = 0; z < this.map.length; z++){
+                if (this.map[z][y][x] == 0){
+                    this.map[z][y][x] = 2;
+                    this.piece.clear(ctx);
+                    this.draw();
+                    this.piece.draw(ctx);
+                    if (!--n) return;
+                    break;
+                }
+            }
+        }
+    }
+
+    pack_map(){
+        let ret = [];
+        for (let z = 0; z < this.map.length; z++){
+            let level = [];
+            for (let y = 0; y < this.map[z].length; y++){
+                let row = 0;
+                for (let x = 0; x < this.map[z][y].length; x++){
+                    let bit = this.map[z][y][x] ? this.bit_mask[x] : 0;
+                    row = row | bit;
+                }
+                level.push(row);
+            }
+            ret.push(level.join(','));
+        }
+        return ret.join('|');
+    }
+
+    unpack_map(data){
+        let map = this.map;
+        let bit_mask = this.bit_mask;
+
+        data.split('|').forEach(function(layer, z){
+            layer.split(',').forEach(function(row, y){
+                let row_int = parseInt(row, 10);
+                for (let x = 0; x < map[z][y].length; x++){
+                    map[z][y][x] = +((bit_mask[x] & row_int) > 0)
+                }
+            })
+        })
+        this.draw();
+   }
 }

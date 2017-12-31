@@ -52,3 +52,29 @@ function guid() {
 function $(selector){
   return document.querySelector(selector)
 }
+
+
+function getJSON(url, data, success, error){
+    data['user_code'] = readCookie('user_code');
+    data['game_code'] = readCookie('game_code');
+
+    fetch(url, {
+        credentials: "same-origin",
+        method: "POST",
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then( function(data){
+        data.json().then( (data) => {
+            if (data.error && typeof error === 'function'){
+                error(data.error);
+                return
+            }
+            if (typeof success === 'function'){
+                success(data)
+            }
+        } )
+    })
+}
