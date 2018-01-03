@@ -1,0 +1,317 @@
+[2018-01-01 11:00:37 -0500] [72859] [INFO] Starting gunicorn 19.7.1
+[2018-01-01 11:00:37 -0500] [72859] [INFO] Listening at: http://0.0.0.0:5000 (72859)
+[2018-01-01 11:00:37 -0500] [72859] [INFO] Using worker: eventlet
+[2018-01-01 11:00:37 -0500] [72862] [INFO] Booting worker with pid: 72862
+[2018-01-01 11:00:37 -0500] [72864] [INFO] Booting worker with pid: 72864
+[2018-01-01 11:00:37 -0500] [72865] [INFO] Booting worker with pid: 72865
+[2018-01-01 11:01:05 -0500] [72859] [INFO] Handling signal: int
+[2018-01-01 11:01:05 -0500] [72865] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:01:05 -0500] [72862] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:01:05 -0500] [72864] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:01:05 -0500] [72865] [INFO] Worker exiting (pid: 72865)
+[2018-01-01 11:01:05 -0500] [72862] [INFO] Worker exiting (pid: 72862)
+[2018-01-01 11:01:05 -0500] [72864] [INFO] Worker exiting (pid: 72864)
+[2018-01-01 11:01:05 -0500] [72859] [INFO] Shutting down: Master
+[2018-01-01 11:01:07 -0500] [72885] [INFO] Starting gunicorn 19.7.1
+[2018-01-01 11:01:07 -0500] [72885] [INFO] Listening at: http://0.0.0.0:5000 (72885)
+[2018-01-01 11:01:07 -0500] [72885] [INFO] Using worker: eventlet
+[2018-01-01 11:01:07 -0500] [72888] [INFO] Booting worker with pid: 72888
+[2018-01-01 11:01:07 -0500] [72889] [INFO] Booting worker with pid: 72889
+[2018-01-01 11:01:07 -0500] [72891] [INFO] Booting worker with pid: 72891
+[2018-01-01 11:01:30 -0500] [72885] [INFO] Handling signal: int
+[2018-01-01 11:01:30 -0500] [72888] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:01:30 -0500] [72891] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:01:30 -0500] [72889] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:01:30 -0500] [72888] [INFO] Worker exiting (pid: 72888)
+[2018-01-01 11:01:30 -0500] [72891] [INFO] Worker exiting (pid: 72891)
+[2018-01-01 11:01:30 -0500] [72889] [INFO] Worker exiting (pid: 72889)
+[2018-01-01 11:01:30 -0500] [72885] [INFO] Shutting down: Master
+[2018-01-01 11:05:19 -0500] [72995] [INFO] Starting gunicorn 19.7.1
+[2018-01-01 11:05:19 -0500] [72995] [INFO] Listening at: http://0.0.0.0:5000 (72995)
+[2018-01-01 11:05:19 -0500] [72995] [INFO] Using worker: eventlet
+[2018-01-01 11:05:19 -0500] [72998] [INFO] Booting worker with pid: 72998
+[2018-01-01 11:05:19 -0500] [73000] [INFO] Booting worker with pid: 73000
+[2018-01-01 11:05:19 -0500] [73002] [INFO] Booting worker with pid: 73002
+[2018-01-01 11:06:49 -0500] [73000] [ERROR] Error handling request /socket.io/?EIO=3&transport=polling&t=M2oUCrt&sid=ce1f1303f42b4af5bcc9723b091d7d54
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 56, in handle
+    self.handle_request(listener_name, req, client, addr)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 107, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask_socketio/__init__.py", line 42, in __call__
+    start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/middleware.py", line 47, in __call__
+    return self.engineio_app.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/socketio/server.py", line 360, in handle_request
+    return self.eio.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/server.py", line 274, in handle_request
+    environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/socket.py", line 95, in handle_get_request
+    raise
+TypeError: exceptions must be old-style classes or derived from BaseException, not NoneType
+[2018-01-01 11:08:20 -0500] [72998] [ERROR] Error handling request /socket.io/?EIO=3&transport=polling&t=M2oUZ2H&sid=6196b145059d43f3b18735a63b7e20b9
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 56, in handle
+    self.handle_request(listener_name, req, client, addr)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 107, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask_socketio/__init__.py", line 42, in __call__
+    start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/middleware.py", line 47, in __call__
+    return self.engineio_app.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/socketio/server.py", line 360, in handle_request
+    return self.eio.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/server.py", line 274, in handle_request
+    environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/socket.py", line 95, in handle_get_request
+    raise
+TypeError: exceptions must be old-style classes or derived from BaseException, not NoneType
+[2018-01-01 11:08:56 -0500] [73000] [ERROR] Error handling request /socket.io/?EIO=3&transport=polling&t=M2oUhuZ&sid=7e1eb65133c34e5fad8b29f1ec0bcbc7
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 56, in handle
+    self.handle_request(listener_name, req, client, addr)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 107, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask_socketio/__init__.py", line 42, in __call__
+    start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/middleware.py", line 47, in __call__
+    return self.engineio_app.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/socketio/server.py", line 360, in handle_request
+    return self.eio.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/server.py", line 274, in handle_request
+    environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/socket.py", line 95, in handle_get_request
+    raise
+TypeError: exceptions must be old-style classes or derived from BaseException, not NoneType
+[2018-01-01 11:09:30 -0500] [72998] [ERROR] Error handling request /socket.io/?EIO=3&transport=polling&t=M2oUq6T&sid=bcb91a2b770e437a9e50a0bfad032973
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 56, in handle
+    self.handle_request(listener_name, req, client, addr)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 107, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask_socketio/__init__.py", line 42, in __call__
+    start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/middleware.py", line 47, in __call__
+    return self.engineio_app.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/socketio/server.py", line 360, in handle_request
+    return self.eio.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/server.py", line 274, in handle_request
+    environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/socket.py", line 95, in handle_get_request
+    raise
+TypeError: exceptions must be old-style classes or derived from BaseException, not NoneType
+[2018-01-01 11:09:52 -0500] [72998] [ERROR] Error handling request /socket.io/?EIO=3&transport=polling&t=M2oUvOz&sid=201f2b3788d441f29aefc2cc3808f3be
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 56, in handle
+    self.handle_request(listener_name, req, client, addr)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/async.py", line 107, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask/app.py", line 2000, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/flask_socketio/__init__.py", line 42, in __call__
+    start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/middleware.py", line 47, in __call__
+    return self.engineio_app.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/socketio/server.py", line 360, in handle_request
+    return self.eio.handle_request(environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/server.py", line 274, in handle_request
+    environ, start_response)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/engineio/socket.py", line 95, in handle_get_request
+    raise
+TypeError: exceptions must be old-style classes or derived from BaseException, not NoneType
+[2018-01-01 11:10:30 -0500] [72995] [INFO] Handling signal: int
+[2018-01-01 11:10:30 -0500] [73000] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:10:30 -0500] [73002] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:10:30 -0500] [72998] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 131, in init_process
+    self.run()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 132, in run
+    eventlet.sleep(1.0)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/greenthread.py", line 35, in sleep
+    hub.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 295, in switch
+    return self.greenlet.switch()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/hub.py", line 347, in run
+    self.wait(sleep_time)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 100, in wait
+    result = self._control([], self.MAX_EVENTS, seconds)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/eventlet/hubs/kqueue.py", line 41, in _control
+    return self.kqueue.control(events, max_events, timeout)
+OSError: [Errno 4] Interrupted system call
+[2018-01-01 11:10:30 -0500] [73002] [INFO] Worker exiting (pid: 73002)
+[2018-01-01 11:10:30 -0500] [73000] [INFO] Worker exiting (pid: 73000)
+[2018-01-01 11:10:30 -0500] [72998] [INFO] Worker exiting (pid: 72998)
+[2018-01-01 11:10:30 -0500] [72995] [INFO] Shutting down: Master

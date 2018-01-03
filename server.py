@@ -189,7 +189,7 @@ def join(data):
 
 @socketio.on('disconnect')
 def disconnect():
-    print 'DISCONNECT'
+    print('DISCONNECT')
     # assert 'game_code' in request.cookies, "Game code required"
     # leave_room(request.cookies['game_code'])
 
