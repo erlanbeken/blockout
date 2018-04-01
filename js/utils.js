@@ -58,7 +58,7 @@ function getJSON(url, data, success, error){
     data['user_code'] = readCookie('user_code');
     data['game_code'] = readCookie('game_code');
 
-    fetch(url, {
+    return fetch(url, {
         credentials: "same-origin",
         method: "POST",
         headers: {

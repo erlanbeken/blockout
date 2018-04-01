@@ -15,7 +15,9 @@
 
     var field = new Field(canvas);
     var ui    = new UI(field, start_game);
-    var net   = new Net(field);
+    var net;
+
+    ui.when_done(() => net = new Net(field));
 
     var speed_levels    = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50];
     var current_speed_level = 1;
@@ -28,7 +30,6 @@
     var on_pause = false;
     var game_over = false;
     var drop = false;
-    var wait_flag = false;
     var score = 0;
 
     var keys = {
@@ -107,16 +108,13 @@
                 if (m[2] == 0) throw 'Execute intermediate move'
             }
 
-            if (!wait_flag && !field.move_legal_cube_centers(piece, [0, 0, move_step * 2])){
-                drop      = false;
-                wait_flag = true;
-                counter   = speed_levels[current_speed_level] - 10;
-            }
-
             if (!field.move_legal_cube_centers(piece, [0, 0, move_step])){
+                if (drop && moves_queue.length){
+                    do_move();
+                    throw 'Execute last move';
+                }
 
                 drop        = false;
-                wait_flag   = false;
                 moves_queue = [];
 
                 field.add_piece(piece);
@@ -142,44 +140,10 @@
                     game_over = true;
                     return
                 }
-
                 new_piece();
             }
 
-            if (moves_queue.length){
-                let value      = moves_queue.shift();
-                let move_legal = field.move_legal(piece.clone().move(value));
-
-                if (!move_legal){
-                    // if trying to move up and right, but can't move right
-                    // try moving up
-                    if (value.filter(Boolean).length == 2){
-                        let new_value = value.slice(0); // a fast way of cloning the array
-                        new_value[field.check_flag] = 0 // field.check_flag: 0 if can't move left/right, 1 if can't move up/down
-                        moves_queue.unshift(new_value);
-                    }
-                    throw 'Move is illegal'
-                }
-
-                let m = value.map(function(i){ return i / checks_per_move; });
-                let tmp_piece = piece.clone();
-
-                // check intermediate positions
-                for (let i = 0; i < checks_per_move; i++){
-                    if (!field.move_legal(tmp_piece.move(m))){
-                        // if trying to rotate and the wall's in the way
-                        // check if the final position is legal
-                        // make the move if it is
-                        if (field.check_flag !== false) break
-                        throw 'Intermediate move is illegal'
-                    }
-                }
-
-                m = value.map(function(i){ return i / frames_per_move; });
-                for (let i = 0; i < frames_per_move; i++){
-                    immediate_moves_queue.push(m);
-                }
-            }
+            if (moves_queue.length && !drop) do_move();
 
             if (drop || ++counter >= speed_levels[current_speed_level]){
                 counter = 0;
@@ -191,6 +155,41 @@
         }
 
         timeout = setTimeout(moves_queue_handler, 1);
+    }
+
+    function do_move(){
+        const value    = moves_queue.shift()
+        let move_legal = field.move_legal(piece.clone().move(value));
+
+        if (!move_legal){
+            // if trying to move up and right, but can't move right
+            // try moving up
+            if (value.filter(Boolean).length == 2){
+                let new_value = value.slice(0); // a fast way of cloning the array
+                new_value[field.check_flag] = 0 // field.check_flag: 0 if can't move left/right, 1 if can't move up/down
+                moves_queue.unshift(new_value);
+            }
+            throw 'Move is illegal'
+        }
+
+        let m = value.map(function(i){ return i / checks_per_move; });
+        let tmp_piece = piece.clone();
+
+        // check intermediate positions
+        for (let i = 0; i < checks_per_move; i++){
+            if (!field.move_legal(tmp_piece.move(m))){
+                // if trying to rotate and the wall's in the way
+                // check if the final position is legal
+                // make the move if it is
+                if (field.check_flag !== false) break
+                throw 'Intermediate move is illegal'
+            }
+        }
+
+        m = value.map(function(i){ return i / frames_per_move; });
+        for (let i = 0; i < frames_per_move; i++){
+            immediate_moves_queue.push(m);
+        }
     }
 
     document.onkeydown = function(e){

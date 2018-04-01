@@ -1,17 +1,20 @@
+# gunicorn -k flask_sockets.worker -b 0.0.0.0:5000 server:app
+
 import datetime
 import os
 import time
+import traceback
+import json
+
 from flask import Flask, send_from_directory, request, make_response, jsonify
-from flask_socketio import SocketIO, emit, send, join_room, leave_room
-
-import eventlet
-
+from flask_sockets import Sockets
 from flask_sqlalchemy import SQLAlchemy
 from utils import generate_unique_code
 from flask_cors import CORS
 
 app  = Flask('app', static_url_path=os.path.abspath('./'))
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+sockets = Sockets(app)
 
 app.config['SECRET_KEY']              = 'secret!'
 app.config['SQLALCHEMY_POOL_SIZE']    = 100
@@ -20,23 +23,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/blockout'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']  = True
 
-socketio = SocketIO(app)
-db       = SQLAlchemy(app)
+
+db = SQLAlchemy(app)
 
 db.init_app(app)
 
-@app.route('/js/<path:path>')
-def send_js(path):
-    return send_from_directory('js', path)
-
-@app.route('/css/<path:path>')
-def send_css(path):
-    return send_from_directory('css', path)
-
-@app.route('/')
-@app.route('/index.html')
-def send_index_html():
-    return send_from_directory('.', 'index.html')
+all_games = {}
 
 @app.route('/api/get_user_info', methods=["POST"])
 def get_user_info():
@@ -84,7 +76,8 @@ def get_user_info():
         # response.set_cookie('user_code', user_code, domain=request.host, expires=datetime.datetime.now() + datetime.timedelta(days=9000))
         return response
     except Exception as e:
-        return jsonify({'error': e})
+        print(traceback.format_exc())
+        return jsonify({'error': repr(e)})
 
 
 @app.route('/api/update_user_info', methods=["POST"])
@@ -114,54 +107,17 @@ def update_user_info():
 
 #----------------------------------------------
 
-# @socketio.on('join')
-# def on_join(data):
-#     username = data['username']
-#     room = data['room']
-#     join_room(room)
-#     # send(username + ' has entered the room.', room=room)
+def socket_connect(socket, data):
+    global all_games
+
+    game_code = data['game_code']
+    user_code = data['user_code']
+
+    all_games.setdefault(game_code, {})[user_code] = socket
+    print all_games
 
 
-@socketio.on('level_removed')
-def level_removed(data):
-    from models import User, Game, GameUser, commit
-
-    user_code = data.get('user_code')
-    game_code = data.get('game_code')
-
-    game = Game.find_by_code(game_code)
-    user = User.find_by_code(user_code)
-
-    GameUser.query.filter(GameUser.game_id==game.id).filter(GameUser.user_id==user.id).first().map = data['map']
-
-    data = {
-        'n'         : data['levels'],
-        'user_code' : user_code,
-        'user_alias': user.alias
-    }
-    commit()
-
-    emit('feces_time', data, room=game_code)
-
-
-@socketio.on('game_over')
-def game_over(data):
-    from models import User
-
-    user_code = data.get('user_code')
-    game_code = data.get('game_code')
-
-    user    = User.find_by_code(user_code)
-
-    data = {
-        'user_code' : user_code,
-        'user_alias': user.alias
-    }
-    emit('game_over', data, room=game_code)
-
-
-@socketio.on('piece_dropped')
-def piece_dropped(data):
+def socket_piece_dropped(socket, data):
     from models import Game, User, GameUser, commit
 
     user_code = data.get('user_code')
@@ -170,29 +126,71 @@ def piece_dropped(data):
     game = Game.find_by_code(game_code)
     user = User.find_by_code(user_code)
 
-    user.games.filter(GameUser.game_id == game.id).first().map = data.get('map')
+    GameUser.update_map(game.id, user.id, data.get('map'))
 
-    commit()
-
-
-@socketio.on('connect')
-def connect():
-    pass
-    # join_room(request.cookies['game_code'])
+    send_message(game_code, user_code, 'PIECE_DROPPED')
 
 
-@socketio.on('join')
-def join(data):
-    assert 'game_code' in data, "Game code required"
-    join_room(data['game_code'])
+def socket_level_removed(socket, data):
+    print 'level removed'
+
+    from models import User, Game, GameUser, commit
+
+    user_code = data.get('user_code')
+    game_code = data.get('game_code')
+
+    game = Game.find_by_code(game_code)
+    user = User.find_by_code(user_code)
+
+    GameUser.update_map(game.id, user.id, data['map'])
+
+    send_message(game_code, user_code, 'LEVEL_REMOVED:' + str(data['levels']))
 
 
-@socketio.on('disconnect')
-def disconnect():
-    print('DISCONNECT')
-    # assert 'game_code' in request.cookies, "Game code required"
-    # leave_room(request.cookies['game_code'])
+def socket_game_over(data):
+    from models import User
+
+    user_code = data.get('user_code')
+    game_code = data.get('game_code')
+
+    GameUser.finish(game.id, user.id)
+
+    send_message(game_code, user_code, 'GAME_OVER')
+
+#----------------------------------------------
+
+@sockets.route('/ws')
+def socket(socket):
+    while True:
+        result = ''
+        try:
+            message = json.loads(socket.receive())
+
+            assert 'method' in  message
+
+            handler_name = 'socket_' + message['method']
+            if handler_name in globals():
+                result = globals()[handler_name](socket, message.get('data', {})) or 'OK'
+
+        except Exception as e:
+            print repr(e)
+            result = 'Error: ' + repr(e)
+        finally:
+            socket.send(result)
+
+
+def send_message(game_code, sender_user_code, message):
+    for user_code, socket in all_games[game_code].items():
+        if user_code != sender_user_code:
+            # print 'sending {} to {}'.format(message, user_code)
+            socket.send(message)
+
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, host='0.0.0.0')
+    from gevent import pywsgi
+    from geventwebsocket.handler import WebSocketHandler
+
+    server = pywsgi.WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
+    server.serve_forever()
+    # app.run(host='0.0.0.0', port=5000, debug=True)

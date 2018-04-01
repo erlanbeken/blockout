@@ -23,7 +23,7 @@ class UI{
         if (game_code) createCookie('game_code', game_code, 10000);
         else eraseCookie('game_code');
 
-        getJSON(
+        this.promise = getJSON(
             window.api_url + 'api/get_user_info', {},
             (data) => {
                 if (data.alias){
@@ -43,6 +43,10 @@ class UI{
                 this.showError(error)
             }
         )
+    }
+
+    when_done(callback){
+        this.promise.then(() => callback())
     }
 
     updateSpeedLevel(value){

@@ -315,3 +315,159 @@ OSError: [Errno 4] Interrupted system call
 [2018-01-01 11:10:30 -0500] [73000] [INFO] Worker exiting (pid: 73000)
 [2018-01-01 11:10:30 -0500] [72998] [INFO] Worker exiting (pid: 72998)
 [2018-01-01 11:10:30 -0500] [72995] [INFO] Shutting down: Master
+[2018-02-02 09:57:22 -0500] [15841] [INFO] Starting gunicorn 19.7.1
+[2018-02-02 09:57:22 -0500] [15841] [INFO] Listening at: http://0.0.0.0:5000 (15841)
+[2018-02-02 09:57:22 -0500] [15841] [INFO] Using worker: eventlet
+[2018-02-02 09:57:22 -0500] [15845] [INFO] Booting worker with pid: 15845
+[2018-02-02 09:57:22 -0500] [15848] [INFO] Booting worker with pid: 15848
+[2018-02-02 09:57:22 -0500] [15849] [INFO] Booting worker with pid: 15849
+[2018-02-02 09:57:22 -0500] [15845] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 126, in init_process
+    self.load_wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+    return self.load_wsgiapp()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/util.py", line 352, in import_app
+    __import__(module)
+  File "/Users/erlanbekenov/Sites/blockout/wsgi.py", line 1, in <module>
+    from server import app as application
+  File "/Users/erlanbekenov/Sites/blockout/server.py", line 5, in <module>
+    from flask_sockets import Sockets
+ImportError: No module named flask_sockets
+[2018-02-02 09:57:22 -0500] [15845] [INFO] Worker exiting (pid: 15845)
+[2018-02-02 09:57:22 -0500] [15848] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 126, in init_process
+    self.load_wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+    return self.load_wsgiapp()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/util.py", line 352, in import_app
+    __import__(module)
+  File "/Users/erlanbekenov/Sites/blockout/wsgi.py", line 1, in <module>
+    from server import app as application
+  File "/Users/erlanbekenov/Sites/blockout/server.py", line 5, in <module>
+    from flask_sockets import Sockets
+ImportError: No module named flask_sockets
+[2018-02-02 09:57:22 -0500] [15848] [INFO] Worker exiting (pid: 15848)
+[2018-02-02 09:57:22 -0500] [15849] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 126, in init_process
+    self.load_wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+    return self.load_wsgiapp()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/util.py", line 352, in import_app
+    __import__(module)
+  File "/Users/erlanbekenov/Sites/blockout/wsgi.py", line 1, in <module>
+    from server import app as application
+  File "/Users/erlanbekenov/Sites/blockout/server.py", line 5, in <module>
+    from flask_sockets import Sockets
+ImportError: No module named flask_sockets
+[2018-02-02 09:57:22 -0500] [15849] [INFO] Worker exiting (pid: 15849)
+[2018-02-20 10:11:42 -0500] [5868] [INFO] Starting gunicorn 19.7.1
+[2018-02-20 10:11:42 -0500] [5868] [INFO] Listening at: http://0.0.0.0:5000 (5868)
+[2018-02-20 10:11:42 -0500] [5868] [INFO] Using worker: eventlet
+[2018-02-20 10:11:42 -0500] [5871] [INFO] Booting worker with pid: 5871
+[2018-02-20 10:11:42 -0500] [5874] [INFO] Booting worker with pid: 5874
+[2018-02-20 10:11:42 -0500] [5875] [INFO] Booting worker with pid: 5875
+[2018-02-20 10:11:42 -0500] [5871] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 126, in init_process
+    self.load_wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+    return self.load_wsgiapp()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/util.py", line 352, in import_app
+    __import__(module)
+  File "/Users/erlanbekenov/Sites/blockout/wsgi.py", line 1, in <module>
+    from server import app as application
+  File "/Users/erlanbekenov/Sites/blockout/server.py", line 5, in <module>
+    from flask_sockets import Sockets
+ImportError: No module named flask_sockets
+[2018-02-20 10:11:42 -0500] [5871] [INFO] Worker exiting (pid: 5871)
+[2018-02-20 10:11:42 -0500] [5874] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 126, in init_process
+    self.load_wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+    return self.load_wsgiapp()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/util.py", line 352, in import_app
+    __import__(module)
+  File "/Users/erlanbekenov/Sites/blockout/wsgi.py", line 1, in <module>
+    from server import app as application
+  File "/Users/erlanbekenov/Sites/blockout/server.py", line 5, in <module>
+    from flask_sockets import Sockets
+ImportError: No module named flask_sockets
+[2018-02-20 10:11:42 -0500] [5874] [INFO] Worker exiting (pid: 5874)
+[2018-02-20 10:11:42 -0500] [5875] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/arbiter.py", line 578, in spawn_worker
+    worker.init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/geventlet.py", line 103, in init_process
+    super(EventletWorker, self).init_process()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 126, in init_process
+    self.load_wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/workers/base.py", line 135, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 65, in load
+    return self.load_wsgiapp()
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/app/wsgiapp.py", line 52, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/Users/erlanbekenov/Sites/blockout/lib/python2.7/site-packages/gunicorn/util.py", line 352, in import_app
+    __import__(module)
+  File "/Users/erlanbekenov/Sites/blockout/wsgi.py", line 1, in <module>
+    from server import app as application
+  File "/Users/erlanbekenov/Sites/blockout/server.py", line 5, in <module>
+    from flask_sockets import Sockets
+ImportError: No module named flask_sockets
+[2018-02-20 10:11:42 -0500] [5875] [INFO] Worker exiting (pid: 5875)

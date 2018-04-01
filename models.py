@@ -28,7 +28,7 @@ class BlockoutModel(object):
 
 class GameUser(db.Model):
     __tablename__ = 'game_user'
-    id            = db.Column(db.Integer, primary_key=True)
+    id            = db.Column(db.Integer, primary_key=True, autoincrement=True)
     game_id       = db.Column(db.Integer, db.ForeignKey('game.id'), primary_key=True)
     user_id       = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     score         = db.Column(db.Integer, nullable=True)
@@ -37,8 +37,19 @@ class GameUser(db.Model):
     finished      = db.Column(db.DateTime, nullable=True)
 
 
+    @classmethod
+    def update_map(cls, game_id, user_id, new_map):
+        cls.query.filter(GameUser.game_id==game_id).filter(GameUser.user_id==user_id).first().map = new_map
+        commit()
+
+    @classmethod
+    def finish(cls, game_id, user_id):
+        cls.query.filter(GameUser.game_id==game_id).filter(GameUser.user_id==user_id).first().finished = datetime.datetime.now()
+        commit()
+
+
 class User(db.Model, BlockoutModel):
-    id              = db.Column(db.Integer, primary_key=True)
+    id              = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code            = db.Column(db.String(100), nullable=False, unique=True)
     alias           = db.Column(db.String(100), nullable=True)
     email           = db.Column(db.String(200), unique=True, nullable=True)
@@ -51,7 +62,7 @@ class User(db.Model, BlockoutModel):
 
 
 class Game(db.Model, BlockoutModel):
-    id            = db.Column(db.Integer, primary_key=True)
+    id            = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code          = db.Column(db.String(100), nullable=False, unique=True)
     users         = db.relationship('GameUser', backref="games")
     created       = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)

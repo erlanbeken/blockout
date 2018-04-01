@@ -232,7 +232,6 @@ class Field{
         let levels_removed = 0;
         let target         = this.map[0].length * this.map[0][0].length;
 
-        let map = this.map;
         this.map = this.map.filter(function(rows){
             let non_zeroes = rows.reduce(function(a, b) { return a.concat(b) }).filter(Boolean)
 
