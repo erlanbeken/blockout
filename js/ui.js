@@ -1,8 +1,5 @@
 class UI{
-    constructor(field, start_game){
-        // this.updateTopScore(parseInt(readCookie('top_score', 0), 10));
-        // if (!checkCookie('user_id')) createCookie('user_id', guid());
-
+    constructor(field){
         this.field = field;
 
         $('#start_game').addEventListener('click', function(){
@@ -37,7 +34,6 @@ class UI{
                 if (data.map){
                     this.field.unpack_map(data.map);
                 }
-                start_game();
             },
             (error) => {
                 this.showError(error)

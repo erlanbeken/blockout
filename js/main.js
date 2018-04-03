@@ -14,10 +14,15 @@
     var piece;
 
     var field = new Field(canvas);
-    var ui    = new UI(field, start_game);
+    var ui    = new UI(field);
     var net;
 
-    ui.when_done(() => net = new Net(field));
+    ui.when_done(() => {
+        net = new Net(field)
+        field.draw();
+        new_piece();
+        run();
+    });
 
     var speed_levels    = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50];
     var current_speed_level = 1;
@@ -56,12 +61,6 @@
         68: [0, 0, 0, 0, 0, -1 * rotate_step],
         32: function(){ drop = true;},
         27: toggle_pause
-    }
-
-    function start_game(){
-        field.draw();
-        new_piece();
-        run();
     }
 
     function toggle_pause(){
