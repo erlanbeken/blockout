@@ -1,6 +1,6 @@
 (function main(){
     // window.api_url = 'http://dev.blockout:5000/';
-    window.api_url = window.location.hostname + ':5000/';
+    window.api_url = window.location.origin + ':5000/';
 
     const frames_per_move   = 7;
     const checks_per_move   = 3;
