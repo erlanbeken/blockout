@@ -1,22 +1,18 @@
 (function main(){
-    // window.api_url = 'http://dev.blockout:5000/';
     window.api_url = window.location.origin + ':5000/';
 
+    const move_step         = 80;
     const frames_per_move   = 7;
     const checks_per_move   = 3;
-    const center_x          = 250;
-    const center_y          = 250;
-    const port_number       = 5000;
     const prototype_indexes = Object.keys(PROTOTYPES).filter(function(i){ return i[0] != '_';});
 
     window.canvas = document.getElementById("myCanvas");
     window.ctx    = canvas.getContext("2d");
 
-    var piece;
-
-    var field = new Field(canvas);
-    var ui    = new UI(field);
-    var net;
+    let piece;
+    let field = new Field(canvas);
+    let ui    = new UI(field);
+    let net;
 
     ui.when_done(() => {
         net = new Net(field)
@@ -25,20 +21,21 @@
         run();
     });
 
-    var speed_levels    = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50];
-    var current_speed_level = 1;
-    var counter  = 0;
+    let pieces_down         = 0;
+    let speed_levels        = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50, 20];
+    let current_speed_level = 1;
+    let counter             = 0;
 
     // move = [dx, dy, dz, angle_x, angle_y, angle_z]
-    var moves_queue = [];
-    var immediate_moves_queue = [];
-    var timeout, timer;
-    var on_pause = false;
-    var game_over = false;
-    var drop = false;
-    var score = 0;
+    let moves_queue = [];
+    let immediate_moves_queue = [];
+    let timeout, timer;
+    let on_pause = false;
+    let game_over = false;
+    let drop = false;
+    let score = 0;
 
-    var keys = {
+    let keys = {
         //move
         76 : [move_step, 0, 0, 0, 0, 0],                    // right
         39 : [move_step, 0, 0, 0, 0, 0],                    // right
@@ -65,8 +62,6 @@
     }
 
     function toggle_pause(){
-        if (game_over) return;
-
         on_pause = !on_pause;
         if (on_pause){
             piece.clear(ctx);
@@ -78,26 +73,16 @@
         }
     }
 
-    function run(){
-        moves_queue_handler();
-        timer = setInterval(function(){
-            if (speed_levels.length - 1 > current_speed_level){
-                ui.updateSpeedLevel(++current_speed_level)
-            }
-        }, 60000);
-    }
-
     function new_piece(){
         let indexes = prototype_indexes;
         let index   = indexes[Math.floor(Math.random() * indexes.length)];
 
-        // index = 'LStick'
         piece = new Piece(index);
         field.set_piece(piece);
         piece.draw(ctx);
     }
 
-    function moves_queue_handler(){
+    function run(){
         try{
             if (immediate_moves_queue.length){
                 let m = immediate_moves_queue.shift();
@@ -125,20 +110,31 @@
                 let levels_removed = field.check_levels_removed();
 
                 if (levels_removed){
-                    net.levelRemoved(levels_removed);
                     score += levels_removed ** levels_removed;
-                    field.draw_grid();
+
+                    net.levelRemoved(levels_removed);
                     ui.updateScore(score);
+
+                    field.draw_grid();
+
                 }
                 field.draw();
 
                 // check if the game is over
                 if (!field.check_space(Piece.start_position)){
                     toggle_pause();
-                    ui.gameOver(field);
+
+                    ui.gameOver();
                     net.gameOver();
+
                     game_over = true;
                     return
+                }
+                pieces_down++;
+
+                // check if it's time to hike the level up
+                if (pieces_down % 20 == 0 && current_speed_level < speed_levels.length - 1){
+                    ui.updateSpeedLevel(++current_speed_level)
                 }
                 new_piece();
             }
@@ -154,7 +150,7 @@
             // console.log(e);
         }
 
-        timeout = setTimeout(moves_queue_handler, 1);
+        timeout = setTimeout(run, 1);
     }
 
     function do_move(){
@@ -194,6 +190,9 @@
 
     document.onkeydown = function(e){
         if (e.target == document.body && e.keyCode in keys){
+
+            if (game_over) return;
+
             let value = keys[e.keyCode];
 
             if (typeof value === 'function') return value();

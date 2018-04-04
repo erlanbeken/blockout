@@ -70,13 +70,13 @@ class UI{
         getJSON(window.api_url + 'api/update_user_info', data, null, (msg) => { this.showError(msg) })
     }
 
-    gameOver(field){
-        let z = field.depth / field.step;
+    gameOver(){
+        let z = this.field.depth / this.field.step;
 
-        let handler = function(){
-            field.map[z] = field.empty_level();
-            field.draw_grid();
-            field.draw();
+        let handler = () =>{
+            this.field.map[z] = this.field.empty_level();
+            this.field.draw_grid();
+            this.field.draw();
             if (--z >= 0){
                 setTimeout(handler, 50);
             }else{
