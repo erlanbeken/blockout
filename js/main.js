@@ -22,7 +22,7 @@
     });
 
     let pieces_down         = 0;
-    let speed_levels        = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50, 20];
+    let speed_levels        = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50, 30];
     let current_speed_level = 1;
     let counter             = 0;
 
