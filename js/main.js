@@ -90,7 +90,7 @@
                 piece.move(m);
                 piece.draw(ctx);
 
-                if (m[2] == 0) throw 'Execute intermediate move'
+                throw 'Execute intermediate move'
             }
 
             if (!field.move_legal_cube_centers(piece, [0, 0, move_step])){
@@ -154,8 +154,8 @@
     }
 
     function do_move(){
-        const value    = moves_queue.shift()
-        let move_legal = field.move_legal(piece.clone().move(value));
+        const value      = moves_queue.shift()
+        const move_legal = field.move_legal(piece, value);
 
         if (!move_legal){
             // if trying to move up and right, but can't move right
