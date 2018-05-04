@@ -21,21 +21,21 @@
         run();
     });
 
+    const speed_levels      = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50, 30];
     let pieces_down         = 0;
-    let speed_levels        = [0, 300, 280, 250, 220, 200, 180, 150, 125, 100, 80, 50, 30];
     let current_speed_level = 1;
     let counter             = 0;
 
     // move = [dx, dy, dz, angle_x, angle_y, angle_z]
     let moves_queue = [];
     let immediate_moves_queue = [];
-    let timeout, timer;
+    let timeout;
     let on_pause = false;
     let game_over = false;
     let drop = false;
     let score = 0;
 
-    let keys = {
+    const keys = {
         //move
         76 : [move_step, 0, 0, 0, 0, 0],                    // right
         39 : [move_step, 0, 0, 0, 0, 0],                    // right
@@ -66,7 +66,6 @@
         if (on_pause){
             piece.clear(ctx);
             clearTimeout(timeout);
-            clearInterval(timer);
         }else{
             piece.draw(ctx);
             run();
@@ -95,7 +94,7 @@
 
             if (!field.move_legal_cube_centers(piece, [0, 0, move_step])){
                 if (drop && moves_queue.length){
-                    do_move();
+                    do_move(true);
                     throw 'Execute last move';
                 }
 
@@ -153,9 +152,9 @@
         timeout = setTimeout(run, 1);
     }
 
-    function do_move(){
-        const value      = moves_queue.shift()
-        const move_legal = field.move_legal(piece, value);
+    function do_move(debug=false){
+        const value    = moves_queue.shift()
+        let move_legal = field.move_legal(piece.clone().move(value));
 
         if (!move_legal){
             // if trying to move up and right, but can't move right
