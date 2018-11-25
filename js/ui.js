@@ -36,7 +36,7 @@ class UI{
                 }
             },
             (error) => {
-                this.showError(error)
+                this.showMessage(error)
             }
         )
     }
@@ -67,7 +67,7 @@ class UI{
     }
 
     updateUserInfo(data){
-        getJSON(window.api_url + 'api/update_user_info', data, null, (msg) => { this.showError(msg) })
+        getJSON(window.api_url + 'api/update_user_info', data, null, (msg) => { this.showMessage(msg.error) })
     }
 
     gameOver(){
@@ -87,9 +87,13 @@ class UI{
         handler();
     }
 
-    showError(error){
-        $('.message span').innerHTML = window.error;
+    showMessage(message){
+        $('.message span').innerHTML = message;
         $('.message').style.display = 'block';
         $('.message').className += ' error';
+    }
+
+    hideMessage(){
+        $('.message').style.display = 'none';
     }
 }

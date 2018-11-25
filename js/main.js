@@ -57,16 +57,19 @@
         87: [0, 0, 0, 0, -1 * rotate_step, 0],
         69: [0, 0, 0, 0, 0, rotate_step],
         68: [0, 0, 0, 0, 0, -1 * rotate_step],
-        32: function(){ drop = true;},
-        27: toggle_pause
+        32: () => { drop = true },
+        27: toggle_pause,
+        80: toggle_pause
     }
 
     function toggle_pause(){
         on_pause = !on_pause;
         if (on_pause){
+            ui.showMessage('Paused');
             piece.clear(ctx);
             clearTimeout(timeout);
         }else{
+            ui.hideMessage();
             piece.draw(ctx);
             run();
         }
@@ -188,6 +191,7 @@
     }
 
     document.onkeydown = function(e){
+        // console.log(e.keyCode)
         if (e.target == document.body && e.keyCode in keys){
 
             if (game_over) return;
@@ -200,4 +204,12 @@
             moves_queue.push(value)
         }
     }
+
+    document.getElementById("help_close").addEventListener('click', () => {
+        document.getElementById("help_info").style.display = "none";
+    });
+    document.getElementById("help").addEventListener('click', () => {
+        document.getElementById("help_info").style.display = "block";
+        if (!on_pause) toggle_pause();
+    })
 })();
