@@ -1,5 +1,5 @@
 (function main(){
-    window.api_url = window.location.origin + ':5000/';
+    window.api_url = window.location.origin + '/';
 
     const move_step         = 80;
     const frames_per_move   = 7;

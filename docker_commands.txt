@@ -1,0 +1,7 @@
+docker build -t blockout . && docker run -p 8080:8080 blockout
+
+docker exec -it ID /bin/bash
+
+
+tail -f /usr/local/var/log/nginx/access.log&
+tail -f /usr/local/var/log/nginx/error.log&

@@ -2,26 +2,25 @@
 
 import datetime
 import os
-import time
 import traceback
 import json
 
-from flask import Flask, send_from_directory, request, make_response, jsonify
+from flask import Flask, request, jsonify
 from flask_sockets import Sockets
 from flask_sqlalchemy import SQLAlchemy
 from utils import generate_unique_code
 from flask_cors import CORS
 
-app  = Flask('app', static_url_path=os.path.abspath('./'))
+app = Flask('app', static_url_path=os.path.abspath('./'))
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 sockets = Sockets(app)
 
-app.config['SECRET_KEY']              = 'secret!'
-app.config['SQLALCHEMY_POOL_SIZE']    = 100
+app.config['SECRET_KEY'] = 'secret!'
+app.config['SQLALCHEMY_POOL_SIZE'] = 100
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 280
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/blockout'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']  = True
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 
 db = SQLAlchemy(app)
