@@ -21,33 +21,36 @@ class UI {
         if (game_code) createCookie("game_code", game_code, this.days);
         else eraseCookie("game_code");
 
-        this.promise = getJSON(
-            window.api_url + "api/get_user_info",
-            {},
-            data => {
-                if (data.alias) {
-                    $("#user_alias").value = data.alias;
-                }
-                createCookie("user_code", data.user_code, this.days);
-                this.user_code = data.user_code;
+        this.promise = new Promise((resolve, reject) => {
+            resolve();
+        });
+        // this.promise = getJSON(
+        //     window.api_url + "api/get_user_info",
+        //     {},
+        //     data => {
+        //         if (data.alias) {
+        //             $("#user_alias").value = data.alias;
+        //         }
+        //         createCookie("user_code", data.user_code, this.days);
+        //         this.user_code = data.user_code;
 
-                this.top_score = data.top_score;
+        //         this.top_score = data.top_score;
 
-                if (data.map) {
-                    this.field.unpack_map(data.map);
-                }
-            },
-            error => {
-                // this.showMessage(error);
-                if (!checkCookie("top_score")) {
-                    createCookie("top_score", this.top_score, this.days);
-                }
-                this.top_score = readCookie("top_score");
-            },
-            () => {
-                this.updateTopScore(this.top_score, false);
-            }
-        );
+        //         if (data.map) {
+        //             this.field.unpack_map(data.map);
+        //         }
+        //     },
+        //     error => {
+        //         // this.showMessage(error);
+        //         if (!checkCookie("top_score")) {
+        //             createCookie("top_score", this.top_score, this.days);
+        //         }
+        //         this.top_score = readCookie("top_score");
+        //     },
+        //     () => {
+        //         this.updateTopScore(this.top_score, false);
+        //     }
+        // );
     }
 
     when_done(callback) {

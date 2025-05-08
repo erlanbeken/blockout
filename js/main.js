@@ -7,7 +7,7 @@
     const prototype_indexes = Object.keys(PROTOTYPES).filter(function(i){ return i[0] != '_';});
 
     window.canvas = document.getElementById("myCanvas");
-    window.ctx    = canvas.getContext("2d");
+    window.ctx    = canvas.getContext("2d", {willReadFrequently: true});
 
     let piece;
     let field = new Field(canvas);
@@ -15,7 +15,7 @@
     let net;
 
     ui.when_done(() => {
-        net = new Net(field)
+        // net = new Net(field)
         field.draw();
         new_piece();
         run();
@@ -106,7 +106,7 @@
 
                 field.add_piece(piece);
 
-                net.pieceDropped();
+                // net.pieceDropped();
 
                 // check if any levels have been removed
                 let levels_removed = field.check_levels_removed();
@@ -114,7 +114,7 @@
                 if (levels_removed){
                     score += levels_removed ** levels_removed;
 
-                    net.levelRemoved(levels_removed);
+                    // net.levelRemoved(levels_removed);
                     ui.updateScore(score);
 
                     field.draw_grid();
@@ -127,7 +127,7 @@
                     toggle_pause();
 
                     ui.gameOver();
-                    net.gameOver();
+                    // net.gameOver();
 
                     game_over = true;
                     return
@@ -191,7 +191,6 @@
     }
 
     document.onkeydown = function(e){
-        // console.log(e.keyCode)
         if (e.target == document.body && e.keyCode in keys){
 
             if (game_over) return;
